@@ -1,13 +1,24 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 2rem;
+    padding-bottom: 35px; 
 }
 
-nav a {
+nav:not(.navbar) a {
     margin-right: 1rem;
     text-decoration: none;
 }
 
 h1 {
     margin: 0 0 1rem;
+}
+
+.fixed-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.main-content {
+    min-height: calc(100vh - 110px);
 }
