@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'announcements' %}">Announcements</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ announcement.title|truncatechars:50 }}</li>
+                    </ol>
+                </nav>
+                
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="card-title mb-0">{{ announcement.title }}</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between text-muted mb-4">
+                            <span><i class="bi bi-person"></i> {{ announcement.author }}</span>
+                            <span><i class="bi bi-calendar"></i> {{ announcement.date_created|date:"F d, Y \a\t g:i A" }}</span>
+                        </div>
+                        
+                        <div class="announcement-content">
+                            <div id="content-preview">
+                                {{ announcement.content|linebreaks|truncatewords:50 }}
+                            </div>
+                            <div id="content-full" style="display: none;">
+                                {{ announcement.content|linebreaks }}
+                            </div>
+                            
+                            {% if announcement.content|wordcount > 50 %}
+                                <button id="toggle-content" class="btn btn-link p-0 mt-2" onclick="toggleContent()">
+                                    <span id="toggle-text">Read More</span>
+                                </button>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mt-4">
+                            <a href="{% url 'announcements' %}" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Back to Announcements
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleContent() {
+            const preview = document.getElementById('content-preview');
+            const full = document.getElementById('content-full');
+            const toggleText = document.getElementById('toggle-text');
+            
+            if (preview.style.display === 'none') {
+                // Show preview, hide full
+                preview.style.display = 'block';
+                full.style.display = 'none';
+                toggleText.textContent = 'Read More';
+            } else {
+                // Show full, hide preview
+                preview.style.display = 'none';
+                full.style.display = 'block';
+                toggleText.textContent = 'Show Less';
+            }
+        }
+    </script>
+{% endblock content %}
